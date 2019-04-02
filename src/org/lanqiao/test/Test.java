@@ -1,4 +1,4 @@
-package org.lanqiao.entity;
+package org.lanqiao.test;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -8,8 +8,12 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.lanqiao.entity.Student;
+import org.lanqiao.mapper.StudentMapper;
 
 public class Test {
+
+
 	//查询单个学生
 	public static void queryStudentByStuno() throws IOException {
 		//Connection -  SqlSession操作MyBatis
@@ -20,8 +24,8 @@ public class Test {
 				//可以通过build的第二参数 指定数据库环境
 				SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
 				SqlSession session = sessionFacotry.openSession() ;
-				String statement = "org.lanqiao.entity.studentMapper.queryStudentByStuno";
-				Student student = session.selectOne(statement,1) ;
+                StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+			    Student student=studentMapper.queryStudentByStuno(1);
 				System.out.println(student);
 				session.close();
 	}
@@ -36,10 +40,8 @@ public class Test {
 					SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
 					SqlSession session = sessionFacotry.openSession() ;
 					
-					
-					
-					String statement = "org.lanqiao.entity.studentMapper."+"queryAllStudents";
-					List<Student> students = session.selectList(statement) ;
+					StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+					List<Student> students =studentMapper.queryAllStudents();
 					System.out.println(students);
 					session.close();
 		}
@@ -54,15 +56,11 @@ public class Test {
 					//可以通过build的第二参数 指定数据库环境
 					SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
 					SqlSession session = sessionFacotry.openSession() ;
-					
-					String statement = "org.lanqiao.entity.studentMapper."+"addStudent";
+				 StudentMapper studentMapper = session.getMapper(StudentMapper.class);
 					Student student = new Student(3,"ww",25,"s1");
-					
-					
-					int count = session.insert(statement, student );//statement：指定执行的SQL    student：sql中需要的参数 （ ? ? ? ）
+					studentMapper.addStudent(student);
 					session.commit(); //提交事务
 					
-					System.out.println("增加"+count+"个学生");
 					session.close();
 		}
  		
@@ -76,14 +74,9 @@ public class Test {
 					//可以通过build的第二参数 指定数据库环境
 					SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
 					SqlSession session = sessionFacotry.openSession() ;
-					
-					String statement = "org.lanqiao.entity.studentMapper."+"deleteStudentByStuno";
-					
-					int count = session.delete(statement,3) ;
-					
+					StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+					studentMapper.deleteStudentByStuno(1);
 					session.commit(); //提交事务
-					
-					System.out.println("删除"+count+"个学生");
 					session.close();
 		}
 	
@@ -97,7 +90,6 @@ public class Test {
 					SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
 					SqlSession session = sessionFacotry.openSession() ;
 					
-					String statement = "org.lanqiao.entity.studentMapper."+"updateStudentByStuno";
 					//修改的参数
 					Student student = new Student();
 					//修改哪个人，where stuno =2 
@@ -106,22 +98,18 @@ public class Test {
 					student.setStuName("lxs");
 					student.setStuAge(44);
 					student.setGraName("s2");
-					//执行
-					int count = session.update(statement,student) ;
-					
+					StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+					studentMapper.updateStudentByStuno(student);
 					session.commit(); //提交事务
-					
-					System.out.println("修改"+count+"个学生");
 					session.close();
 		}
 	
 	
 	public static void main(String[] args) throws IOException {
-		addStudent();
-		queryAllStudents();
-//		 addStudent() ;
-//		delteStudentByStuno();
-//		updateStudentByStuno();
-//		queryAllStudents();
+
+	
+	delteStudentByStuno();
+	queryAllStudents();
+	
 	}
 }
