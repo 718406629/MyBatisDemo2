@@ -5,6 +5,17 @@ public class Student {
 	private String stuName ;
 	private int stuAge ;
 	private String graName ;
+	private boolean stuSex;
+	public boolean isStuSex() {
+		return stuSex;
+	}
+
+
+	public void setStuSex(boolean stuSex) {
+		this.stuSex = stuSex;
+	}
+
+
 	public Student() {
 	}
 	
@@ -42,7 +53,7 @@ public class Student {
 	
 	@Override
 	public String toString() {
-		return this.stuNo+"-"+this.stuName+"-"+this.stuAge+"-"+this.graName;
+		return this.stuNo+"-"+this.stuName+"-"+this.stuAge+"-"+this.graName+"性别："+this.stuSex;
 	}
 	
 }

@@ -17,4 +17,6 @@ public interface StudentMapper {
 	void updateStudentByStuno(Student student);
 
 	List<Student> queryAllStudents();
+	
+	void addStudentWithConverter(Student student);
 }

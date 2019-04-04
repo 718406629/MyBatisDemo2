@@ -3,6 +3,21 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+     <properties resource="db.properties"></properties>
+     <typeAliases>
+       <package name="org.lanqiao.entity"/>
+   
+     </typeAliases>
+    
+    <!-- 配置转换器 --> 
+     <typeHandlers>
+          <typeHandler handler="org.lanqiao.converter.BooleanAndIntConverter"
+          javaType="Boolean" jdbcType="INTEGER"/>
+     </typeHandlers>
+     
+     
+
 	<!-- 通过environments的default值 和  environment的 id 来指定 MyBatis运行时的数据库环境-->
 	<environments default="development">
 		<!-- 开发环境（自己的计算机） -->
@@ -27,10 +42,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				
 				
 					<!-- 配置数据库信息 -->
-					<property name="driver" value="com.mysql.jdbc.Driver"/>
-					<property name="url" value="jdbc:mysql://localhost:3306/test"/>
-					<property name="username" value="root"/>
-					<property name="password" value="15214329839"/>
+					<property name="driver" value="${driver}"/>
+					<property name="url" value="${url}"/>
+					<property name="username" value="${username}"/>
+					<property name="password" value="${password}"/>
 				</dataSource>
 		</environment>
 		
@@ -39,10 +54,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<transactionManager type="JDBC"/>
 				<dataSource type="POOLED">
 				<!-- 配置数据库信息 -->
-				<property name="driver" value="com.mysql.jdbc.Driver"/>
-					<property name="url" value="jdbc:mysql://localhost:3306/test"/>
-					<property name="username" value="root"/>
-					<property name="password" value="15214329839"/>
+				<property name="driver" value="${driver}"/>
+					<property name="url" value="${url}"/>
+					<property name="username" value="${username}"/>
+					<property name="password" value="${password}"/>
 			</dataSource>
 		</environment>
 		
@@ -52,10 +67,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<transactionManager type="JDBC"/>
 				<dataSource type="POOLED">
 				<!-- 配置数据库信息 -->
-				<property name="driver" value="com.mysql.jdbc.Driver"/>
-					<property name="url" value="jdbc:mysql://localhost:3306/test"/>
-					<property name="username" value="root"/>
-					<property name="password" value="15214329839"/>
+				<property name="driver" value="${driver}"/>
+					<property name="url" value="${url}"/>
+					<property name="username" value="${username}"/>
+					<property name="password" value="${password}"/>
 			</dataSource>
 		</environment>
 	</environments>

@@ -104,11 +104,35 @@ public class Test {
 					session.close();
 		}
 	
+ 		
+ 	public static void addStudentWithConverter() throws IOException {
+ 		Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+ 		Student student=new Student();
+ 		student.setStuNo(8);
+ 		student.setStuName("ls");
+ 		student.setStuAge(23);
+ 		student.setGraName("r1");
+ 		student.setStuSex(true);
+		StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        studentMapper.addStudentWithConverter(student);
+        session.commit();
+        session.close();
+ 		
+ 		
+ 	}
+
 	
 	public static void main(String[] args) throws IOException {
 
 	
-	delteStudentByStuno();
+	//delteStudentByStuno();
+	queryAllStudents();
+addStudentWithConverter();
 	queryAllStudents();
 	
 	}

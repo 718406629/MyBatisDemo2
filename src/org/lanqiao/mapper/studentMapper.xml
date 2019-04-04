@@ -8,12 +8,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--  后续通过  namespace.id-->
 	<!--parameterType:输入参数的类型
 	resultType：查询返回结果值的类型  ，返回类型  -->
-	<select id="queryStudentByStuno" parameterType="int"  resultType="org.lanqiao.entity.Student" >
+	<select id="queryStudentByStuno" parameterType="int"  resultMap="studentResult" >
 			select * from student where stuno = #{stuno}
 	</select>
+	<resultMap type="student" id="studentResult">
+	<!-- 分为主键id和非主键result -->
+     <id property="stuNo" column="stuno"/>	
+	 <result property="stuName" column="stuname"/>
+	 <result property="stuAge"  column="stuage"/>
+	 <result property="graName" column="graname"/>
+	 <result property="stuSex" column="stusex" javaType="boolean" jdbcType="INTEGER"/>
+	</resultMap>
 	
 	
-	<insert id="addStudent" parameterType="org.lanqiao.entity.Student" >
+	
+	<insert id="addStudent" parameterType="Student" >
 		insert into student(stuno,stuname,stuage,graname) values(#{stuNo},#{stuName},#{stuAge},#{graName}  ) 
 	</insert>
 	
@@ -23,13 +32,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from student where stuno = #{stuno} 
 	</delete>
 	
-	<update id="updateStudentByStuno" parameterType="org.lanqiao.entity.Student" >
+	<update id="updateStudentByStuno" parameterType="Student" >
 		update student set stuname=#{stuName} ,stuage=#{stuAge},graname=#{graName} where stuno=#{stuNo} 
 	</update>
 	
-	<select id="queryAllStudents"  resultType="org.lanqiao.entity.Student" >
+	<select id="queryAllStudents"  resultMap="studentResult" >
 		select * from student 
 	</select>
+	<!-- 带转换器的增加 -->
+	<insert id="addStudentWithConverter" parameterType="student" >
+		insert into student(stuno,stuname,stuage,graname,stusex) values(#{stuNo},#{stuName},#{stuAge},#{graName} ,#{stuSex ,javaType=boolean  ,jdbcType=INTEGER   } ) 
+	</insert>
 
 	
 	
