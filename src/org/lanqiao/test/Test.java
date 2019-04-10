@@ -1,15 +1,18 @@
 package org.lanqiao.test;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.List;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.lanqiao.entity.Grade;
 import org.lanqiao.entity.Student;
+import org.lanqiao.entity.StudentClass;
 import org.lanqiao.mapper.StudentMapper;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
 
@@ -125,15 +128,158 @@ public class Test {
  		
  		
  	}
+ 	//<!-- 将多个元素值 放入对象的属性中 -->
+public static void 	queryStudentsWithNosInGrade() throws IOException{
+	Reader reader = Resources.getResourceAsReader("conf.xml") ;
+	//reader  ->SqlSession
+	//可以通过build的第二参数 指定数据库环境
+	SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+	//session相当于jdbc里的connection
+	SqlSession session = sessionFacotry.openSession() ;
+ 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+ 	Grade grade=new Grade();
+ 	List<Integer> list=new ArrayList<Integer>();
+ 	list.add(1);
+ 	list.add(2);
+ 	list.add(3);
+ 	list.add(4);
+ 	list.add(8);
+ 	
+ 	grade.setStuNos(list);
+ 	
+ 	List<Student> students=studentMapper.queryStudentsWithNosInGrade(grade);
+ 	System.out.println(students);
+ 	session.commit();
+ 	session.close();
+ 	
+ 	
+}
+//数组
+  public static void  queryStudentsWithArray() throws IOException {
+	  Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+	 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+	    int[] stuNo= {1,2,3,4,8};
+	List<Student> students=	studentMapper.queryStudentsWithArray(stuNo);
+	     System.out.println(students);
+	     session.commit();
+	     session.close();
+	 
+  }
+	//集合	
+ public static void queryStudentsWithList() throws IOException{
+	 Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+	 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+	    List<Integer> stuNo=new ArrayList<Integer>();
+	    stuNo.add(1);
+	    stuNo.add(2);
+	    stuNo.add(3);
+	    stuNo.add(4);
+	    stuNo.add(8);
+	    
+List<Student> students=studentMapper.queryStudentsWithList(stuNo);
+	  System.out.println(students);
+	  session.commit();
+	  session.close();
+	  
+	  
+  }
+ //对象数组 
+public static void  queryStudentsWithObjectArray() throws IOException{
+	 
+	 Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+	 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+	    Student[] students=new Student[3];
+	    Student student1=new Student();
+	    Student student2=new Student();
+	    Student student3=new Student();
+	    student1.setStuNo(1);
+	    student2.setStuNo(2);
+	    student3.setStuNo(3);
+	    students[0]=student1;
+	    students[1]=student2;
+	    students[2]=student3;
 
+	List<Student> students2 = studentMapper.queryStudentsWithObjectArray(students);
+	    session.commit();
+	    session.close();
+	 
+	 
+ }
+
+ public static void queryStudentByNoWithOO() throws IOException {
+	 
+	 
+	 Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+	 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+	    Student student=studentMapper.queryStudentByNoWithOO(1);
+	    System.out.println(student);
+	    session.commit();
+	    session.close();
+	 
+ }
+   
+public static void queryClassAndStudents() throws IOException {
 	
+	 Reader reader = Resources.getResourceAsReader("conf.xml") ;
+		//reader  ->SqlSession
+		//可以通过build的第二参数 指定数据库环境
+		SqlSessionFactory sessionFacotry = new SqlSessionFactoryBuilder().build(reader,"development") ;
+		//session相当于jdbc里的connection
+		SqlSession session = sessionFacotry.openSession() ;
+	 	StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+	
+	    StudentClass studentClass=studentMapper.queryClassAndStudents(1);
+		System.out.println(studentClass.getClassId()+","+studentClass.getClassName());
+	   List<Student> students=studentClass.getStudents();
+	    for(Student student: students) {
+	    	
+			System.out.println(student.getStuNo()+","+student.getStuName()+","+student.getStuAge());
+	    
+	    	
+	    }
+	    session.commit();
+	    session.close();
+	
+	
+	
+	
+	
+}
+ 
+ 
+ 
 	public static void main(String[] args) throws IOException {
 
 	
 	//delteStudentByStuno();
-	queryAllStudents();
-addStudentWithConverter();
-	queryAllStudents();
-	
+	//queryAllStudents();
+   //addStudentWithConverter();
+	//queryAllStudents();
+//queryStudentsWithNosInGrade();
+    //queryStudentsWithArray();
+	//queryStudentsWithList();
+		//queryStudentsWithObjectArray();
+    //queryStudentByNoWithOO();
+     queryClassAndStudents();
 	}
 }

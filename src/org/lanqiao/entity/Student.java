@@ -1,11 +1,24 @@
 package org.lanqiao.entity;
-
+//学生类 包含：1、学生信息  2、学生证信息
 public class Student {
+	
 	private int stuNo ;
 	private String stuName ;
 	private int stuAge ;
 	private String graName ;
 	private boolean stuSex;
+	//学生证信息
+	private StudentCard card;
+	public StudentCard getCard() {
+		return card;
+	}
+
+
+	public void setCard(StudentCard card) {
+		this.card = card;
+	}
+
+
 	public boolean isStuSex() {
 		return stuSex;
 	}
@@ -53,7 +66,8 @@ public class Student {
 	
 	@Override
 	public String toString() {
-		return this.stuNo+"-"+this.stuName+"-"+this.stuAge+"-"+this.graName+"性别："+this.stuSex;
+		return this.stuNo+"-"+this.stuName+"-"+this.stuAge+"-"+this.graName+"-性别："+this.stuSex
+				+"-"+this.card.getcardId()+"-"+this.card.getcardInfo();
 	}
 	
 }
